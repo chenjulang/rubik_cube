@@ -1,3 +1,5 @@
+原项目请看https://github.com/leanprover-community/ProofWidgets4
+
 # ProofWidgets
 
 ProofWidgets is a library of user interface components for [Lean 4](https://leanprover.github.io/). It
