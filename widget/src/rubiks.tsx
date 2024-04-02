@@ -40,7 +40,9 @@ function invert(p: Perm): Perm {
   return o
 }
 
-const colors = ['red', 'snow', 'darkorange', 'yellow', 'green', 'blue']
+//  在这里改颜色
+// [B,F,U,D,R,L]
+const colors = ['blue', 'green', 'white', 'yellow', 'red', 'darkorange']
 
 
 // action of 90° rotation on 3×3 grid
@@ -85,16 +87,16 @@ function inject(p2d: Perm, newaxis: number, axisvals: string[]) {
 }
 
 type genstr =
-  | "U" | "D" | "L" | "R" | "F" | "B"
-  | "U⁻¹" | "D⁻¹" | "L⁻¹" | "R⁻¹" | "F⁻¹" | "B⁻¹"
+  | "B" | "F" | "U" | "D" | "R" | "L"
+  | "B⁻¹" | "F⁻¹" | "U⁻¹" | "D⁻¹" | "R⁻¹" | "L⁻¹"
 
 const generators: { [k in genstr]: Perm } = {
-  U: inject(R2, 0, ["2"]),
-  D: inject(R2, 0, ["0"]),
-  L: inject(R2, 1, ["2"]),
-  R: inject(R2, 1, ["0"]),
-  F: inject(R2, 2, ["2"]),
-  B: inject(R2, 2, ["0"]),
+  B: inject(R2, 0, ["2"]),
+  F: inject(R2, 0, ["0"]),
+  U: inject(R2, 1, ["2"]),
+  D: inject(R2, 1, ["0"]),
+  R: inject(R2, 2, ["2"]),
+  L: inject(R2, 2, ["0"]),
 } as any
 
 for (const k of Object.getOwnPropertyNames(generators)) {
@@ -104,25 +106,26 @@ for (const k of Object.getOwnPropertyNames(generators)) {
 
 function generatorToRotation(generator: string, cubelet: string, time = 1.0): THREE.Matrix4 {
   if (generator.includes("⁻¹")) {
-    return generatorToRotation(generator.split("⁻¹")[0], cubelet, time).invert()
+    // return generatorToRotation(generator.split("⁻¹")[0], cubelet, time).invert()
+    return generatorToRotation(generator.split("⁻¹")[0], cubelet, Math.abs(4-time)) // 用正向代替反向，因为对于["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹"]有bug
   }
   const θ = Math.PI * 0.5 * time
-  if (generator == "U" && cubelet[0] == "2") {
+  if (generator == "B" && cubelet[0] == "2") {
+    return new THREE.Matrix4().makeRotationX(-θ) // 这里加个负号-θ是顺时针，θ是逆时针。下面的不一样，总之不是正就是负，调试一下。
+  }
+  if (generator == "F" && cubelet[0] == "0") {
     return new THREE.Matrix4().makeRotationX(θ)
   }
-  if (generator == "D" && cubelet[0] == "0") {
-    return new THREE.Matrix4().makeRotationX(θ)
+  if (generator == "U" && cubelet[1] == "2") {
+    return new THREE.Matrix4().makeRotationY(-θ)
   }
-  if (generator == "L" && cubelet[1] == "2") {
-    return new THREE.Matrix4().makeRotationY(- θ)
+  if (generator == "D" && cubelet[1] == "0") {
+    return new THREE.Matrix4().makeRotationY(θ)
   }
-  if (generator == "R" && cubelet[1] == "0") {
-    return new THREE.Matrix4().makeRotationY(- θ)
+  if (generator == "R" && cubelet[2] == "2") {
+    return new THREE.Matrix4().makeRotationZ(-θ)
   }
-  if (generator == "F" && cubelet[2] == "2") {
-    return new THREE.Matrix4().makeRotationZ(θ)
-  }
-  if (generator == "B" && cubelet[2] == "0") {
+  if (generator == "L" && cubelet[2] == "0") {
     return new THREE.Matrix4().makeRotationZ(θ)
   }
   console.warn(`Invalid generator ${generator}. Skipping.`)
