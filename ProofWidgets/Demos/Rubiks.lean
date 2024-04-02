@@ -54,13 +54,25 @@ def g2 := #["L","F","R⁻¹","F⁻¹","L⁻¹","U","U","R","U","R","U⁻¹","R",
 #html <Rubiks seq={g1} />
 #html <Rubiks seq={g2} />
 
+-- 还是有bug，只能保持角度，更换次数。
 
 def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹","B","R2","B","D2","F2","U2","R⁻¹","D","U⁻¹"]
 -- def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹"]
+#html <Rubiks seq={eg0} /> -- 1
 #html <Rubiks seq={egTest} />
--- "L⁻¹" 有问题,原型没问题，那就是我的问题好吧～～～
--- 只能旋转一下看。
--- 试着改以下内容：
--- 1.改下颜色 -- ok
--- 2.改下旋转为顺时针 -- ok
--- 3.能不能主动旋转一下 --
+
+  -- OddToEven: R U R' F' R U R' U' R' F R R U' R' U' // R,U,R⁻¹,F⁻¹,R,U,R⁻¹,U⁻¹,R⁻¹,F,R,R,U⁻¹,R⁻¹,U⁻¹
+  -- solve_Corner_Orient: (conj D G1Perm)
+    -- * (conj (U'*D) G1Perm)
+    -- * (conj (U*D') G1Perm)
+    -- * (conj D' G1Perm)
+    -- * (conj D2 G1Perm) * (conj D2 G1Perm)
+  -- solve_Corner_Permute: ((conj R2 (VarR G4Perm_List)⁻¹)
+    -- * (VarL G4Perm_List)
+    -- * (conj (D*L'*D'*F2*L) (VarL G4Perm_List))
+    -- * (conj L2 (G4Perm)⁻¹))⁻¹
+  -- solve_Edge_Permute
+    --   ((conj (U'*L2*U*B') (VarL G3Perm_List))
+    -- * (conj F (G3Perm)⁻¹)
+    -- * (conj F2 (VarR G3Perm_List)⁻¹)
+    -- * (conj (D'*L2) G3Perm))⁻¹
