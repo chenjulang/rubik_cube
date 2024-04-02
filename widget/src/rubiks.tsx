@@ -215,24 +215,28 @@ function Cube(props: CubeProps) {
   </group>
 }
 
-function correct_move_inv(seq:string[]){
-  return seq.map(ele=>{
+function correct_move_inv(seq:genstr[]){
+  let result:genstr[] = []
+  for(let i=0;i<seq.length;i++){
+    let ele = seq[i]
     switch (ele) {
-      case "L": return "U"
-      case "R3": return "D"
-      case "D": return "F"
-      case "U3": return "B"
-      case "B": return "L"
-      case "F3": return "R"
-      case "L⁻¹": return "U⁻¹"
-      case "R": return "D⁻¹"
-      case "D⁻¹": return "F⁻¹"
-      case "U": return "B⁻¹"
-      case "B⁻¹": return "L⁻¹"
-      case "F": return "R⁻¹"
-      default:return "";
+      case "U": result = result.concat(["L"]);break;
+      case "D": result = result.concat(["R","R","R"]);break;
+      case "F": result = result.concat(["D"]);break;
+      case "B": result = result.concat(["U","U","U"]);break;
+      case "L": result = result.concat(["B"]);break;
+      case "R": result = result.concat(["F","F","F"]);break;
+      case "U⁻¹": result = result.concat(["L⁻¹"]);break;
+      case "D⁻¹": result = result.concat(["R"]);break;
+      case "F⁻¹": result = result.concat(["D⁻¹"]);break;
+      case "B⁻¹": result = result.concat(["U"]);break;
+      case "L⁻¹": result = result.concat(["B⁻¹"]);break;
+      case "R⁻¹": result = result.concat(["F"]);break;
+      default: break;
     }
-  })
+  }
+
+  return result
 }
 
 let test1 = ["D⁻¹", "F", "F", "U", "U", "F", "F", "U⁻¹", "F", "F", "D⁻¹", "B", "B", "D⁻¹", "U⁻¹", "L⁻¹", "B", "R", "R", "B", "D", "D", "F", "F", "U", "U", "R⁻¹", "D", "U⁻¹"]
@@ -240,15 +244,15 @@ console.log(correct_move_inv(test1))
 
 export default function (props: any) {
   const seq = props.seq ?? []
-  const [t, setT] = React.useState(100)
+  const [t, setT] = React.useState(300)
   return <div style={{ height: 300 }}>
-    <input type="range" min="0" max="100" value={t} onChange={e => setT(e.target.value as any)} />
-    <div>Sequence: {JSON.stringify(correct_move_inv(seq))}</div>
+    <input type="range" min="0" max="300" value={t} onChange={e => setT(e.target.value as any)} />
+    <div>Sequence: {JSON.stringify(seq)}</div>
     <Canvas >
       <pointLight position={[150, 150, 150]} intensity={0.55} />
       <ambientLight color={0xffffff} />
       <group rotation-x={Math.PI * 0.25} rotation-y={Math.PI * 0.25}>
-        <Cube seq={seq} time={t / 100} />
+        <Cube seq={correct_move_inv(seq)} time={t / 300} />
       </group>
       <OrbitControls />
     </Canvas>
