@@ -37,7 +37,7 @@ def g2 := #["L","F","R⁻¹","F⁻¹","L⁻¹","U","U","R","U","R","U⁻¹","R",
 -- 2. U要改成B；D改成F；F改成R；B改成L；L改成U；R改成D
 -- 3.genstr应该不用改的。
 
-#html <Rubiks seq={eg0} />
+#html <Rubiks seq={eg0} /> -- 1
 #html <Rubiks seq={eg1} /> -- U
 #html <Rubiks seq={eg2} /> -- D
 #html <Rubiks seq={eg3} /> -- F
@@ -51,13 +51,16 @@ def g2 := #["L","F","R⁻¹","F⁻¹","L⁻¹","U","U","R","U","R","U⁻¹","R",
 #html <Rubiks seq={eg11} /> -- L⁻¹
 #html <Rubiks seq={eg12} />
 
-
-
 #html <Rubiks seq={g1} />
 #html <Rubiks seq={g2} />
 
 
--- def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹","B","R2","B","D2","F2","U2","R⁻¹","D","U⁻¹"]
-def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹"]
+def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹","B","R2","B","D2","F2","U2","R⁻¹","D","U⁻¹"]
+-- def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹"]
 #html <Rubiks seq={egTest} />
--- "L⁻¹" 有问题
+-- "L⁻¹" 有问题,原型没问题，那就是我的问题好吧～～～
+-- 只能旋转一下看。
+-- 试着改以下内容：
+-- 1.改下颜色 -- ok
+-- 2.改下旋转为顺时针 -- ok
+-- 3.能不能主动旋转一下 --
