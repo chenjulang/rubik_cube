@@ -84,29 +84,22 @@ def g2 := #["L","F","R⁻¹","F⁻¹","L⁻¹","U","U","R","U","R","U⁻¹","R",
 #html <Rubiks seq={g1} />
 #html <Rubiks seq={g2} />
 
--- 还是有bug，只能保持角度，更换次数。
 
 def egTest := #["D⁻¹", "F", "F", "U", "U", "F", "F", "U⁻¹", "F", "F", "D⁻¹", "B", "B", "D⁻¹", "U⁻¹", "L⁻¹", "B", "R", "R", "B", "D", "D", "F", "F", "U", "U", "R⁻¹", "D", "U⁻¹"]
--- #["R", "D", "D", "L", "L", "D", "D", "L⁻¹", "D", "D", "R", "U3", "U3", "R", "L⁻¹", "B⁻¹", "U3", "F3", "F3", "U3", "R3",
-  -- "R3", "D", "D", "L", "L", "F", "R3", "L⁻¹"]
--- def egTest := #["D","D","D","F","F","U","U","F","F","U","U","U","F"]
 #html <Rubiks seq={eg0} /> -- 1
---todo
 #html <Rubiks seq={egTest} />
--- 不改源码，我改自己行了吧！！！
 
-  -- OddToEven: R U R' F' R U R' U' R' F R R U' R' U' // R,U,R⁻¹,F⁻¹,R,U,R⁻¹,U⁻¹,R⁻¹,F,R,R,U⁻¹,R⁻¹,U⁻¹
-  -- solve_Corner_Orient: (conj D G1Perm)
-    -- * (conj (U'*D) G1Perm)
-    -- * (conj (U*D') G1Perm)
-    -- * (conj D' G1Perm)
-    -- * (conj D2 G1Perm) * (conj D2 G1Perm)
-  -- solve_Corner_Permute: ((conj R2 (VarR G4Perm_List)⁻¹)
-    -- * (VarL G4Perm_List)
-    -- * (conj (D*L'*D'*F2*L) (VarL G4Perm_List))
-    -- * (conj L2 (G4Perm)⁻¹))⁻¹
-  -- solve_Edge_Permute
-    --   ((conj (U'*L2*U*B') (VarL G3Perm_List))
-    -- * (conj F (G3Perm)⁻¹)
-    -- * (conj F2 (VarR G3Perm_List)⁻¹)
-    -- * (conj (D'*L2) G3Perm))⁻¹
+def OddToEven := #["R", "U", "R⁻¹", "F⁻¹", "R", "U", "R⁻¹", "U⁻¹", "R⁻¹", "F", "R", "R", "U⁻¹", "R⁻¹", "U⁻¹"]
+def solve_Corner_Orient := #["D", "R'", "D", "D", "R", "B'", "U", "U", "B", "R'", "D", "D", "R", "B'", "U", "U", "B", "D'",
+  "U'", "D", "R'", "D", "D", "R", "B'", "U", "U", "B", "R'", "D", "D", "R", "B'", "U", "U", "B", "D'", "U",
+  "U", "D'", "R'", "D", "D", "R", "B'", "U", "U", "B", "R'", "D", "D", "R", "B'", "U", "U", "B", "D", "U'",
+  "D'", "R'", "D", "D", "R", "B'", "U", "U", "B", "R'", "D", "D", "R", "B'", "U", "U", "B", "D",
+  "D", "D", "R'", "D", "D", "R", "B'", "U", "U", "B", "R'", "D", "D", "R", "B'", "U", "U", "B", "D", "D", "D", "D", "R'", "D", "D", "R", "B'", "U", "U", "B", "R'", "D", "D", "R", "B'", "U", "U", "B", "D", "D"]
+def solve_Corner_Permute := #["L", "L", "R'", "F'", "F'", "F'", "R'", "B", "B", "R'", "R'", "R'", "F'", "R'", "B", "B", "R'", "R'", "L'", "L'", "D", "L'", "D'", "F", "F", "L", "F", "F", "R'", "R'", "F", "L", "F", "F", "F", "R'", "R'", "F", "L", "L", "L", "F", "L'", "F", "F", "D", "L", "D'", "F", "F", "R'", "R'", "F", "L", "F", "F", "F", "R'", "R'", "F", "L", "L", "L", "F", "R", "R", "B'", "R'", "R'", "R'", "B'", "L", "L", "B'", "B'", "B'", "R'", "B'", "L", "L", "B'", "B'", "R'", "R'"]
+def solve_Edge_Permute := #["D'", "L", "L", "R'", "R'", "U", "R", "U", "R'", "U'", "R'", "U'", "R'", "U", "R'", "L'", "L'", "D", "F", "F", "B", "U'", "B", "U", "B", "U", "B", "U'", "B'", "U'", "B", "B", "F'", "F'", "F", "R", "U'", "R", "U", "R", "U", "R", "U'", "R'", "U'", "R", "R", "F'", "U'", "L", "L", "U", "B'", "F'", "F'", "U", "F", "U", "F'", "U'", "F'", "U'", "F'", "U", "F'", "B", "U'", "L'", "L'", "U"]
+#html <Rubiks seq={egTest} /> -- 初始问题状态
+#html <Rubiks seq={egTest ++ solve_Corner_Orient} /> -- 颜色还原
+#html <Rubiks seq={egTest ++ OddToEven ++ solve_Corner_Permute} /> -- 角块位置还原
+#html <Rubiks seq={egTest ++ OddToEven ++ solve_Edge_Permute} /> -- 棱块位置还原
+#html <Rubiks seq={egTest ++ OddToEven ++ solve_Corner_Permute ++ solve_Edge_Permute} /> -- 角块+棱块位置还原
+#html <Rubiks seq={egTest ++ solve_Corner_Orient ++ OddToEven ++ solve_Corner_Permute ++ solve_Edge_Permute} /> -- 全体还原

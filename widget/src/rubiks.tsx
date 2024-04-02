@@ -89,6 +89,7 @@ function inject(p2d: Perm, newaxis: number, axisvals: string[]) {
 type genstr =
   | "U" | "D" | "L" | "R" | "F" | "B"
   | "U⁻¹" | "D⁻¹" | "L⁻¹" | "R⁻¹" | "F⁻¹" | "B⁻¹"
+  | "U'" | "D'" | "L'" | "R'" | "F'" | "B'"
 
 const generators: { [k in genstr]: Perm } = {
   U: inject(R2, 0, ["2"]),
@@ -227,11 +228,17 @@ function correct_move_inv(seq:genstr[]){
       case "L": result = result.concat(["B"]);break;
       case "R": result = result.concat(["F","F","F"]);break;
       case "U⁻¹": result = result.concat(["L⁻¹"]);break;
+      case "U'": result = result.concat(["L⁻¹"]);break;
       case "D⁻¹": result = result.concat(["R"]);break;
+      case "D'": result = result.concat(["R"]);break;
       case "F⁻¹": result = result.concat(["D⁻¹"]);break;
+      case "F'": result = result.concat(["D⁻¹"]);break;
       case "B⁻¹": result = result.concat(["U"]);break;
+      case "B'": result = result.concat(["U"]);break;
       case "L⁻¹": result = result.concat(["B⁻¹"]);break;
+      case "L'": result = result.concat(["B⁻¹"]);break;
       case "R⁻¹": result = result.concat(["F"]);break;
+      case "R'": result = result.concat(["F"]);break;
       default: break;
     }
   }
