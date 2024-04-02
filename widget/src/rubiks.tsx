@@ -109,9 +109,13 @@ function generatorToRotation(generator: string, cubelet: string, time = 1.0): TH
     return generatorToRotation(generator.split("⁻¹")[0], cubelet, time).invert()
   }
   const θ = Math.PI * 0.5 * time
+  // todo
   if (generator == "U" && cubelet[0] == "2") {
     return new THREE.Matrix4().makeRotationX(θ)
   }
+  // if (generator == "U3" && cubelet[0] == "2") {
+  //   return new THREE.Matrix4().makeRotationX(θ*3)
+  // }
   if (generator == "D" && cubelet[0] == "0") {
     return new THREE.Matrix4().makeRotationX(θ)
   }
@@ -121,9 +125,15 @@ function generatorToRotation(generator: string, cubelet: string, time = 1.0): TH
   if (generator == "R" && cubelet[1] == "0") {
     return new THREE.Matrix4().makeRotationY(- θ)
   }
+  // if (generator == "R3" && cubelet[1] == "0") {
+  //   return new THREE.Matrix4().makeRotationY(- θ * 3)
+  // }
   if (generator == "F" && cubelet[2] == "2") {
     return new THREE.Matrix4().makeRotationZ(θ)
   }
+  // if (generator == "F3" && cubelet[2] == "2") {
+  //   return new THREE.Matrix4().makeRotationZ(θ*3)
+  // }
   if (generator == "B" && cubelet[2] == "0") {
     return new THREE.Matrix4().makeRotationZ(θ)
   }
@@ -205,12 +215,35 @@ function Cube(props: CubeProps) {
   </group>
 }
 
+function correct_move_inv(seq:string[]){
+  return seq.map(ele=>{
+    switch (ele) {
+      case "L": return "U"
+      case "R3": return "D"
+      case "D": return "F"
+      case "U3": return "B"
+      case "B": return "L"
+      case "F3": return "R"
+      case "L⁻¹": return "U⁻¹"
+      case "R": return "D⁻¹"
+      case "D⁻¹": return "F⁻¹"
+      case "U": return "B⁻¹"
+      case "B⁻¹": return "L⁻¹"
+      case "F": return "R⁻¹"
+      default:return "";
+    }
+  })
+}
+
+let test1 = ["D⁻¹", "F", "F", "U", "U", "F", "F", "U⁻¹", "F", "F", "D⁻¹", "B", "B", "D⁻¹", "U⁻¹", "L⁻¹", "B", "R", "R", "B", "D", "D", "F", "F", "U", "U", "R⁻¹", "D", "U⁻¹"]
+console.log(correct_move_inv(test1))
+
 export default function (props: any) {
   const seq = props.seq ?? []
   const [t, setT] = React.useState(100)
   return <div style={{ height: 300 }}>
     <input type="range" min="0" max="100" value={t} onChange={e => setT(e.target.value as any)} />
-    <div>Sequence: {JSON.stringify(seq)}</div>
+    <div>Sequence: {JSON.stringify(correct_move_inv(seq))}</div>
     <Canvas >
       <pointLight position={[150, 150, 150]} intensity={0.55} />
       <ambientLight color={0xffffff} />

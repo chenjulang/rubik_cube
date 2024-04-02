@@ -16,28 +16,25 @@ def eg := #["L", "L", "D⁻¹", "U⁻¹", "L", "D", "D", "L", "U⁻¹",
 
 def correct_move : String → String :=
     fun x =>
-      if x = "U" then "U"
-      else if x = "D" then "D"
-      -- else if x = R then F
-      -- else if x = L then B
-      -- else if x = F then L
---       else if x = B then R
---       else if x = U2 then U2
---       else if x = D2 then D2
---       else if x = R2 then F2
---       else if x = L2 then B2
---       else if x = F2 then L2
---       else if x = B2 then R2
---       else if x = U' then U'
---       else if x = D' then D'
---       else if x = R' then F'
---       else if x = L' then B'
---       else if x = F' then L'
---       else if x = B' then R'
+      if x = "U" then "L"
+      else if x = "D" then "R3"
+      else if x = "F" then "D"
+      else if x = "B" then "U3"
+      else if x = "L" then "B"
+      else if x = "R" then "F3"
+      else if x = "U⁻¹" then "L⁻¹"
+      else if x = "D⁻¹" then "R"
+      else if x = "F⁻¹" then "D⁻¹"
+      else if x = "B⁻¹" then "U"
+      else if x = "L⁻¹" then "B⁻¹"
+      else if x = "R⁻¹" then "F"
       else ""
 
 def corrMoveFunc: Array String →  Array String :=
   fun l => (l.map correct_move)
+
+-- #eval eg
+-- #eval corrMoveFunc eg
 
 def eg0 := #[""]
 def eg1 := #["U"]
@@ -61,6 +58,14 @@ def g2 := #["L","F","R⁻¹","F⁻¹","L⁻¹","U","U","R","U","R","U⁻¹","R",
 -- 1.全部改成顺时针旋转
 -- 2. U要改成B；D改成F；F改成R；B改成L；L改成U；R改成D
 -- 3.genstr应该不用改的。
+-- U →  L 实际效果：U
+-- D →  R 实际效果：D' →  R3 实际效果：D
+-- F →  D 实际效果：F
+-- B →  U 实际效果：B' →  U3 实际效果：B
+-- L →  B 实际效果：L
+-- R →  F 实际效果：R' →  F3 实际效果：R
+
+
 
 #html <Rubiks seq={eg0} /> -- 1
 #html <Rubiks seq={eg1} /> -- U
@@ -82,11 +87,13 @@ def g2 := #["L","F","R⁻¹","F⁻¹","L⁻¹","U","U","R","U","R","U⁻¹","R",
 -- 还是有bug，只能保持角度，更换次数。
 
 def egTest := #["D⁻¹", "F", "F", "U", "U", "F", "F", "U⁻¹", "F", "F", "D⁻¹", "B", "B", "D⁻¹", "U⁻¹", "L⁻¹", "B", "R", "R", "B", "D", "D", "F", "F", "U", "U", "R⁻¹", "D", "U⁻¹"]
+#eval corrMoveFunc egTest
+-- #["R", "D", "D", "L", "L", "D", "D", "L⁻¹", "D", "D", "R", "U3", "U3", "R", "L⁻¹", "B⁻¹", "U3", "F3", "F3", "U3", "R3",
+  -- "R3", "D", "D", "L", "L", "F", "R3", "L⁻¹"]
 -- def egTest := #["D","D","D","F","F","U","U","F","F","U","U","U","F"]
--- "U"
--- "U","U","U"
 #html <Rubiks seq={eg0} /> -- 1
-#html <Rubiks seq={egTest} />
+--todo
+#html <Rubiks seq={corrMoveFunc egTest} />
 -- 不改源码，我改自己行了吧！！！
 
   -- OddToEven: R U R' F' R U R' U' R' F R R U' R' U' // R,U,R⁻¹,F⁻¹,R,U,R⁻¹,U⁻¹,R⁻¹,F,R,R,U⁻¹,R⁻¹,U⁻¹

@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "watch": "rollup --environment NODE_ENV:production --config --watch",
-    "build": "rollup --environment NODE_ENV:production --config"
+    "build": "rollup --environment NODE_ENV:production --config",
+    "dev": "nodemon --exec ts-node --files \"src/rubiks.tsx\""
   },
   "author": "",
   "license": "Apache-2.0",
