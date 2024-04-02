@@ -40,9 +40,9 @@ function invert(p: Perm): Perm {
   return o
 }
 
-// todo
-// const colors = ['white', 'yellow', 'darkorange', 'red', 'green', 'blue']
-const colors = ['white', '#f2f215', '#e78e24', 'red', 'green', 'blue']
+// const colors = ['red', 'snow', 'darkorange', 'yellow', 'green', 'blue']
+const colors = ['blue', 'green', 'white', 'yellow', 'red', 'darkorange']
+
 
 
 // action of 90° rotation on 3×3 grid
@@ -90,7 +90,6 @@ type genstr =
   | "U" | "D" | "L" | "R" | "F" | "B"
   | "U⁻¹" | "D⁻¹" | "L⁻¹" | "R⁻¹" | "F⁻¹" | "B⁻¹"
 
-// todo -- 这里好像不能动
 const generators: { [k in genstr]: Perm } = {
   U: inject(R2, 0, ["2"]),
   D: inject(R2, 0, ["0"]),
@@ -98,12 +97,6 @@ const generators: { [k in genstr]: Perm } = {
   R: inject(R2, 1, ["0"]),
   F: inject(R2, 2, ["2"]),
   B: inject(R2, 2, ["0"]),
-  // B: inject(R2, 0, ["2"]),
-  // F: inject(R2, 0, ["0"]),
-  // U: inject(R2, 1, ["2"]),
-  // D: inject(R2, 1, ["0"]),
-  // R: inject(R2, 2, ["2"]),
-  // L: inject(R2, 2, ["0"]),
 } as any
 
 for (const k of Object.getOwnPropertyNames(generators)) {
@@ -115,10 +108,9 @@ function generatorToRotation(generator: string, cubelet: string, time = 1.0): TH
   if (generator.includes("⁻¹")) {
     return generatorToRotation(generator.split("⁻¹")[0], cubelet, time).invert()
   }
-// todo
   const θ = Math.PI * 0.5 * time
   if (generator == "U" && cubelet[0] == "2") {
-    return new THREE.Matrix4().makeRotationX(-θ)
+    return new THREE.Matrix4().makeRotationX(θ)
   }
   if (generator == "D" && cubelet[0] == "0") {
     return new THREE.Matrix4().makeRotationX(θ)
@@ -127,10 +119,10 @@ function generatorToRotation(generator: string, cubelet: string, time = 1.0): TH
     return new THREE.Matrix4().makeRotationY(- θ)
   }
   if (generator == "R" && cubelet[1] == "0") {
-    return new THREE.Matrix4().makeRotationY(θ)
+    return new THREE.Matrix4().makeRotationY(- θ)
   }
   if (generator == "F" && cubelet[2] == "2") {
-    return new THREE.Matrix4().makeRotationZ(-θ)
+    return new THREE.Matrix4().makeRotationZ(θ)
   }
   if (generator == "B" && cubelet[2] == "0") {
     return new THREE.Matrix4().makeRotationZ(θ)

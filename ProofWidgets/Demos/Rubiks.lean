@@ -14,6 +14,31 @@ def Rubiks : Component RubiksProps where
 def eg := #["L", "L", "D⁻¹", "U⁻¹", "L", "D", "D", "L", "U⁻¹",
 "R", "D", "F", "F", "D"]
 
+def correct_move : String → String :=
+    fun x =>
+      if x = "U" then "U"
+      else if x = "D" then "D"
+      -- else if x = R then F
+      -- else if x = L then B
+      -- else if x = F then L
+--       else if x = B then R
+--       else if x = U2 then U2
+--       else if x = D2 then D2
+--       else if x = R2 then F2
+--       else if x = L2 then B2
+--       else if x = F2 then L2
+--       else if x = B2 then R2
+--       else if x = U' then U'
+--       else if x = D' then D'
+--       else if x = R' then F'
+--       else if x = L' then B'
+--       else if x = F' then L'
+--       else if x = B' then R'
+      else ""
+
+def corrMoveFunc: Array String →  Array String :=
+  fun l => (l.map correct_move)
+
 def eg0 := #[""]
 def eg1 := #["U"]
 def eg2 := #["D"]
@@ -56,10 +81,13 @@ def g2 := #["L","F","R⁻¹","F⁻¹","L⁻¹","U","U","R","U","R","U⁻¹","R",
 
 -- 还是有bug，只能保持角度，更换次数。
 
-def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹","B","R2","B","D2","F2","U2","R⁻¹","D","U⁻¹"]
--- def egTest := #["D⁻¹","F2","U2","F2","U⁻¹","F2","D⁻¹","B2","D⁻¹","U⁻¹","L⁻¹"]
+def egTest := #["D⁻¹", "F", "F", "U", "U", "F", "F", "U⁻¹", "F", "F", "D⁻¹", "B", "B", "D⁻¹", "U⁻¹", "L⁻¹", "B", "R", "R", "B", "D", "D", "F", "F", "U", "U", "R⁻¹", "D", "U⁻¹"]
+-- def egTest := #["D","D","D","F","F","U","U","F","F","U","U","U","F"]
+-- "U"
+-- "U","U","U"
 #html <Rubiks seq={eg0} /> -- 1
 #html <Rubiks seq={egTest} />
+-- 不改源码，我改自己行了吧！！！
 
   -- OddToEven: R U R' F' R U R' U' R' F R R U' R' U' // R,U,R⁻¹,F⁻¹,R,U,R⁻¹,U⁻¹,R⁻¹,F,R,R,U⁻¹,R⁻¹,U⁻¹
   -- solve_Corner_Orient: (conj D G1Perm)
