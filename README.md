@@ -1,5 +1,9 @@
 原项目请看https://github.com/leanprover-community/ProofWidgets4
 
+一键在线使用(使用gitpod)： https://gitpod.io/new/#/https://github.com/chenjulang/rubik_cube This creates a virtual machine in the cloud, and installs Lean and Mathlib. It then presents you with a VS Code window, running in a virtual copy of the repository. We suggest making a copy of the MIL directory, as described in the instructions above for using MIL on your computer. You can update the repository by opening a terminal in the browser and typing git pull followed by lake exe cache get as above.
+Gitpod gives you 50 free hours every month. When you are done working, choose Stop workspace from the menu on the left. The workspace should also stop automatically 30 minutes after the last interaction or 3 minutes after closing the tab.
+To restart a previous workspace, go to https://gitpod.io/workspaces/. If you change the filter from Active to All, you will see all your recent workspaces. You can pin a workspace to keep it on the list of active ones.
+
 # ProofWidgets
 
 ProofWidgets is a library of user interface components for [Lean 4](https://leanprover.github.io/). It
