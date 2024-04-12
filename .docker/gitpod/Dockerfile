@@ -25,6 +25,10 @@ RUN curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -
 # install whichever toolchain mathlib is currently using
 RUN . ~/.profile && elan toolchain install $(curl https://raw.githubusercontent.com/leanprover-community/mathlib4/master/lean-toolchain)
 
+# 安装nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
+
 ENV PATH="/home/gitpod/.local/bin:/home/gitpod/.elan/bin:${PATH}"
 
 # fix the infoview when the container is used on gitpod:
